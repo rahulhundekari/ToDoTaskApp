@@ -3,10 +3,8 @@ package com.example.todotask.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.todotask.presentation.navigation.Navigation
 import com.example.todotask.ui.theme.TODOTaskTheme
+import com.example.ui.navigation.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TODOTaskTheme {
-                Navigation()
+                AppNavigation()
             }
         }
     }

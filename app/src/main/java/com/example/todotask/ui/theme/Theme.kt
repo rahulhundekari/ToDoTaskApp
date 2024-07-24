@@ -22,8 +22,8 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
+    primary = PrimaryColor,
+    secondary = SecondaryColor,
     tertiary = Pink40
 
     /* Other default colors to override
@@ -41,7 +41,7 @@ private val LightColorScheme = lightColorScheme(
 fun TODOTaskTheme(
     darkTheme: Boolean = false, //isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -58,7 +58,7 @@ fun TODOTaskTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
+            window.statusBarColor = colorScheme.secondary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "TODO Task"
 include(":app")
+include(":data")
+include(":domain")
+include(":ui")
