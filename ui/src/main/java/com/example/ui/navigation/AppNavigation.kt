@@ -9,6 +9,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.ui.addToDo.AddToDoScreen
+import com.example.ui.addToDo.AddToDoViewModel
 import com.example.ui.home.HomeScreen
 import com.example.ui.home.HomeViewModel
 
@@ -23,12 +25,13 @@ fun AppNavigation() {
 
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
 
-        composable(route = Screen.HomeScreen.route) {
+        composable(route = Screen.HomeScreen.route) { entry ->
             val viewModel = hiltViewModel<HomeViewModel>()
             val state by viewModel.state.collectAsState()
             val searchText by viewModel.searchText.collectAsState()
             val isSearching by viewModel.isSearching.collectAsState()
             val todoTasks by viewModel.todoTasks.collectAsState()
+            val onResult = entry.savedStateHandle.get<Boolean>("RESULT")
             HomeScreen(
                 state = state,
                 todoTasks = todoTasks,
@@ -38,7 +41,29 @@ fun AppNavigation() {
                 isSearching = isSearching,
                 taskEvent = viewModel.tasksEvent,
                 onSearchTextChange = viewModel::onSearchTextChange,
-                addToDoTask = viewModel::storeData
+                addToDoTask = {
+                    navController.navigate(Screen.AddToDoScreen.route)
+                },
+                onResult = onResult
+            )
+        }
+
+        composable(route = Screen.AddToDoScreen.route) {
+            val viewModel = hiltViewModel<AddToDoViewModel>()
+            val addToDoState by viewModel.state.collectAsState()
+            AddToDoScreen(
+                state = addToDoState,
+                addToDoEvent = viewModel.tasksEvent,
+                onEvent = viewModel::onEvent,
+                onResult = {
+                    navController.previousBackStackEntry?.savedStateHandle?.set(
+                        "RESULT", it
+                    )
+                    navController.navigateUp()
+                },
+                onGoBack = {
+                    navController.navigateUp()
+                }
             )
         }
 

@@ -31,11 +31,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTaskListUseCase: GetTaskListUseCase,
-    private val addTaskUseCase: AddTaskUseCase,
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : ViewModel() {
 
-    // for home screen
     private val _state = MutableStateFlow(TaskState())
     val state = _state.asStateFlow()
 
@@ -49,7 +47,6 @@ class HomeViewModel @Inject constructor(
     val isSearching = _isSearching.asStateFlow()
 
     private val _todoTasks = MutableStateFlow(listOf<Task>())
-
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val todoTasks = _searchText
@@ -75,37 +72,6 @@ class HomeViewModel @Inject constructor(
             SharingStarted.WhileSubscribed(5000),
             _todoTasks.value
         )
-
-    fun storeData(todoText: String) {
-        if (todoText.isBlank()) {
-            return
-        }
-
-        setLoading(true)
-
-        if (todoText.trim().equals("Error", ignoreCase = true)) {
-            viewModelScope.launch {
-                delay(3000)
-                setLoading(false)
-                taskEventChannel.send(TaskEvent.OnNoteError)
-            }
-            return
-        }
-
-        viewModelScope.launch(coroutineDispatcherProvider.ioDispatcher) {
-            // add 3 seconds delay to upload data
-            delay(3000)
-            addTaskUseCase(todoText.trim()).launchIn(viewModelScope)
-            setLoading(false)
-            taskEventChannel.send(TaskEvent.OnNoteSuccess)
-        }
-    }
-
-    private fun setLoading(loading: Boolean) {
-        _state.update {
-            it.copy(isLoadingAddTask = loading)
-        }
-    }
 
     fun fetchTodoList() {
         viewModelScope.launch(coroutineDispatcherProvider.ioDispatcher) {

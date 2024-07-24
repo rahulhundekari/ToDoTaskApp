@@ -6,16 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -23,7 +19,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -47,7 +42,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.domain.model.Task
 import com.example.ui.R
-import com.example.ui.addToDo.AddToDoScreen
 import com.example.ui.common.TopBar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -63,7 +57,8 @@ fun HomeScreen(
     taskEvent: Flow<TaskEvent>,
     callLoadData: () -> Unit,
     todoTasks: List<Task>,
-    addToDoTask: (String) -> Unit
+    addToDoTask: () -> Unit,
+    onResult: Boolean?
 ) {
 
     val context = LocalContext.current
@@ -74,44 +69,11 @@ fun HomeScreen(
     LaunchedEffect(key1 = Unit) {
         callLoadData()
 
-        taskEvent.collect { event ->
-            when (event) {
-                TaskEvent.OnNoteSuccess -> {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            openBottomSheet = false
-                        }
-                    }
-                }
+        onResult?.let { result ->
 
-                TaskEvent.OnNoteError -> {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            openBottomSheet = false
-                        }
-                    }
-                    snackBarHostState.showSnackbar(context.getString(R.string.failed_to_add_todo))
-                }
+            if (!result) {
+                snackBarHostState.showSnackbar(context.getString(R.string.failed_to_add_todo))
             }
-
-        }
-    }
-
-    if (openBottomSheet) {
-        ModalBottomSheet(
-            modifier = Modifier.fillMaxWidth(),
-            sheetState = sheetState,
-            shape = RoundedCornerShape(
-                topStart = 10.dp,
-                topEnd = 10.dp
-            ),
-            dragHandle = { BottomSheetDefaults.DragHandle() },
-            windowInsets = WindowInsets.ime,
-            onDismissRequest = { openBottomSheet = false }) {
-            AddToDoScreen(state.isLoadingAddTask,
-                onAddToDo = {
-                    addToDoTask(it)
-                })
         }
     }
 
@@ -126,7 +88,7 @@ fun HomeScreen(
             FloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.primary,
                 onClick = {
-                    openBottomSheet = true
+                    addToDoTask()
                 }) {
                 Icon(
                     painterResource(R.drawable.ic_add),
