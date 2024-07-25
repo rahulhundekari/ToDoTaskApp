@@ -43,8 +43,6 @@ import androidx.compose.ui.unit.dp
 import com.example.domain.model.Task
 import com.example.ui.R
 import com.example.ui.common.TopBar
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +52,6 @@ fun HomeScreen(
     searchText: String,
     isSearching: Boolean,
     onSearchTextChange: (String) -> Unit,
-    taskEvent: Flow<TaskEvent>,
     callLoadData: () -> Unit,
     todoTasks: List<Task>,
     addToDoTask: () -> Unit,

@@ -34,13 +34,12 @@ fun AppNavigation() {
             val onResult = entry.savedStateHandle.get<Boolean>("RESULT")
             HomeScreen(
                 state = state,
-                todoTasks = todoTasks,
                 snackBarHostState = snackBarHostState,
-                callLoadData = viewModel::fetchTodoList,
                 searchText = searchText,
                 isSearching = isSearching,
-                taskEvent = viewModel.tasksEvent,
                 onSearchTextChange = viewModel::onSearchTextChange,
+                callLoadData = viewModel::fetchTodoList,
+                todoTasks = todoTasks,
                 addToDoTask = {
                     navController.navigate(Screen.AddToDoScreen.route)
                 },

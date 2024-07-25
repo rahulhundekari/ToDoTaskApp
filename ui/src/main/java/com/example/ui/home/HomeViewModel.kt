@@ -37,9 +37,6 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(TaskState())
     val state = _state.asStateFlow()
 
-    private val taskEventChannel = Channel<TaskEvent>()
-    val tasksEvent = taskEventChannel.receiveAsFlow()
-
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
