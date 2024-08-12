@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
@@ -70,5 +71,19 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
+
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.core.testing)
+
+    // Mockito
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
+
+    // Mockito Kotlin
+    testImplementation(libs.mockitokotlin2.mockito.kotlin)
+
+    // AndroidX Test
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.turbine)
 
 }

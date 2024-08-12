@@ -46,7 +46,7 @@ import com.example.ui.common.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     state: TaskState,
     snackBarHostState: SnackbarHostState,
     searchText: String,

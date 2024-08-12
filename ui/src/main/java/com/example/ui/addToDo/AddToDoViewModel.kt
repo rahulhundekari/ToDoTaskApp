@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddToDoViewModel @Inject constructor(
+internal class AddToDoViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : ViewModel() {

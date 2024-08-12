@@ -1,3 +1,3 @@
 package com.example.ui.home
 
-data class TaskState(val isEmptyTodoTasks: Boolean = false)
+internal data class TaskState(val isEmptyTodoTasks: Boolean = false)

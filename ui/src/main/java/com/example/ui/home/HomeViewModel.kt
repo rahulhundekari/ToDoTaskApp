@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+internal class HomeViewModel @Inject constructor(
     private val getTaskListUseCase: GetTaskListUseCase,
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider
 ) : ViewModel() {
@@ -37,13 +37,13 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(TaskState())
     val state = _state.asStateFlow()
 
-    private val _searchText = MutableStateFlow("")
+    val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
 
-    private val _todoTasks = MutableStateFlow(listOf<Task>())
+    val _todoTasks = MutableStateFlow(listOf<Task>())
 
     @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     val todoTasks = _searchText
@@ -81,7 +81,6 @@ class HomeViewModel @Inject constructor(
                     _todoTasks.value = todoTasks
                     _isSearching.update { false }
                 }
-
         }
     }
 

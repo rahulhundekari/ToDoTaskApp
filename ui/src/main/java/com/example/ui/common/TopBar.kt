@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun TopBar(title: String) = TopAppBar(
+internal fun TopBar(title: String) = TopAppBar(
     title = {
         Text(
             text = title,

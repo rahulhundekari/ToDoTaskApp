@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddToDoScreen(
+internal fun AddToDoScreen(
     state: AddToDoState,
     addToDoEvent: Flow<AddToDoEvent>,
     onEvent: (AddToDOUiEvent) -> Unit,

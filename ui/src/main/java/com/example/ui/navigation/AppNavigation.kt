@@ -14,14 +14,12 @@ import com.example.ui.addToDo.AddToDoViewModel
 import com.example.ui.home.HomeScreen
 import com.example.ui.home.HomeViewModel
 
-
 @Composable
 fun AppNavigation() {
 
     val navController = rememberNavController()
 
     val snackBarHostState = remember { SnackbarHostState() }
-
 
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
 
